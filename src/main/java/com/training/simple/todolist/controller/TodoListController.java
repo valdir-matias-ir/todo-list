@@ -1,16 +1,14 @@
 package com.training.simple.todolist.controller;
 
+import com.training.simple.todolist.dao.TodoListDao;
 import com.training.simple.todolist.entity.TodoList;
 import com.training.simple.todolist.exception.ResourceNotFoundException;
-import com.training.simple.todolist.repository.TodoListRepository;
 import com.training.simple.todolist.service.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,16 +16,14 @@ import java.util.Optional;
 public class TodoListController {
 
     @Autowired
-    private TodoListRepository todoListRepository;
+    private TodoListDao todoListDao;
 
     @Autowired
     private TodoListService todoListService;
 
     @GetMapping("lists")
-    public ResponseEntity<Page<TodoList>> list(@RequestParam(required = false, defaultValue = "0") final int page,
-                                               @RequestParam(required = false, defaultValue = "10") final int size) {
-        final Pageable pageable = PageRequest.of(page, size);
-        final Page<TodoList> todoLists = todoListRepository.findAll(pageable);
+    public ResponseEntity<List<TodoList>> list() {
+        final List<TodoList> todoLists = todoListDao.findAll();
 
         return ResponseEntity.ok(todoLists);
     }
@@ -47,7 +43,7 @@ public class TodoListController {
     }
 
     private TodoList findTodoListOrThrow(final Long todoListId) {
-        final Optional<TodoList> todoList = todoListRepository.findById(todoListId);
+        final Optional<TodoList> todoList = todoListDao.findById(todoListId);
 
         return todoList.orElseThrow(ResourceNotFoundException::new);
     }

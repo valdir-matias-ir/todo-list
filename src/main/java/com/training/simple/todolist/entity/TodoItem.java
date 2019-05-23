@@ -1,79 +1,29 @@
 package com.training.simple.todolist.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.immutables.value.Value;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-@Entity
-@Table(name = "todo_item")
-public class TodoItem {
+@Value.Immutable
+@JsonDeserialize(as = ImmutableTodoItem.class)
+@JsonSerialize(as = ImmutableTodoItem.class)
+public interface TodoItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Optional<Long> id();
 
-    @JsonIgnore
-    @ManyToOne(optional = false)
-    private TodoList todoList;
+    Long todoListId();
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    String description();
 
-    @Column(name = "creation_date", nullable = false)
-    private LocalDateTime creationDate;
+    LocalDateTime createdAt();
 
-    @Column(name = "done", nullable = false)
-    private boolean done;
+    @Value.Default
+    default boolean done() {
+        return false;
+    };
 
-    @Column(name = "finished_date")
-    private LocalDateTime finishedDate;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public TodoList getTodoList() {
-        return todoList;
-    }
-
-    public void setTodoList(TodoList todoList) {
-        this.todoList = todoList;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
-    public LocalDateTime getFinishedDate() {
-        return finishedDate;
-    }
-
-    public void setFinishedDate(LocalDateTime finishedDate) {
-        this.finishedDate = finishedDate;
-    }
+    Optional<LocalDateTime> doneAt();
 }
