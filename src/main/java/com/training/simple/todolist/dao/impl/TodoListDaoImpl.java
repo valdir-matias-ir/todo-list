@@ -1,7 +1,9 @@
 package com.training.simple.todolist.dao.impl;
 
 import com.training.simple.todolist.dao.TodoListDao;
+import com.training.simple.todolist.dao.command.todoitem.DeleteAllTodoItemsByTodoListCommand;
 import com.training.simple.todolist.dao.command.todolist.AddTodoListCommand;
+import com.training.simple.todolist.dao.command.todolist.DeleteTodoListCommand;
 import com.training.simple.todolist.dao.command.todolist.FindAllTodoListsCommand;
 import com.training.simple.todolist.dao.command.todolist.FindTodoListByIdCommand;
 import com.training.simple.todolist.entity.TodoList;
@@ -35,5 +37,11 @@ public class TodoListDaoImpl implements TodoListDao {
     @Override
     public TodoList save(final TodoList todoList) {
         return new AddTodoListCommand(jdbcTemplate).apply(todoList);
+    }
+
+    @Override
+    public void delete(final Long id) {
+        new DeleteAllTodoItemsByTodoListCommand(jdbcTemplate)
+                .andThen(new DeleteTodoListCommand(jdbcTemplate)).accept(id);
     }
 }

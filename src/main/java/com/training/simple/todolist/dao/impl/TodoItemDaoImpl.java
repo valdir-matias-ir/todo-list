@@ -1,10 +1,7 @@
 package com.training.simple.todolist.dao.impl;
 
 import com.training.simple.todolist.dao.TodoItemDao;
-import com.training.simple.todolist.dao.command.todoitem.AddTodoItemCommand;
-import com.training.simple.todolist.dao.command.todoitem.FindAllTodoItemsByTodoListCommand;
-import com.training.simple.todolist.dao.command.todoitem.FindTodoItemByIdCommand;
-import com.training.simple.todolist.dao.command.todoitem.UpdateTodoItemCommand;
+import com.training.simple.todolist.dao.command.todoitem.*;
 import com.training.simple.todolist.entity.TodoItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,5 +38,10 @@ public class TodoItemDaoImpl implements TodoItemDao {
     @Override
     public boolean update(final TodoItem todoItem) {
         return new UpdateTodoItemCommand(jdbcTemplate).apply(todoItem);
+    }
+
+    @Override
+    public void delete(final Long todoListId, final Long id) {
+        new DeleteTodoItemCommand(jdbcTemplate, todoListId).accept(id);
     }
 }

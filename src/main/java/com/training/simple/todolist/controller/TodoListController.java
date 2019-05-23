@@ -42,6 +42,13 @@ public class TodoListController {
         return ResponseEntity.ok(todoList);
     }
 
+    @DeleteMapping("list/{id}")
+    public ResponseEntity<Boolean> delete(@PathVariable("id") final Long id) {
+        todoListDao.delete(id);
+
+        return ResponseEntity.ok(true);
+    }
+
     private TodoList findTodoListOrThrow(final Long todoListId) {
         final Optional<TodoList> todoList = todoListDao.findById(todoListId);
 

@@ -9,9 +9,11 @@ public interface TodoItemDao {
 
     List<TodoItem> findAll(Long todoListId);
 
-    Optional<TodoItem> findById(Long todoListId, Long todoItemId);
+    Optional<TodoItem> findById(Long todoListId, Long id);
 
     TodoItem save(TodoItem todoItem);
 
     boolean update(TodoItem todoItem);
+
+    void delete(Long todoListId, Long id);
 }

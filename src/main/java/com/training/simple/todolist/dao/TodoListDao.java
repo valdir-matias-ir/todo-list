@@ -12,4 +12,6 @@ public interface TodoListDao {
     List<TodoList> findAll();
 
     TodoList save(TodoList todoList);
+
+    void delete(Long id);
 }
