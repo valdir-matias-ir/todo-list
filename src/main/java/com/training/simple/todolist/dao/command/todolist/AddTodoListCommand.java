@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -16,12 +15,7 @@ import java.util.function.Function;
 
 public class AddTodoListCommand implements Function<TodoList, TodoList> {
 
-    private static final String INSERT = "INSERT INTO todo_list " +
-            " ( " +
-            "   name, " +
-            "   created_at " +
-            " ) " +
-            " VALUES (:name, :created_at)";
+    private static final String INSERT = "INSERT INTO todo_list (name, created_at) VALUES (:name, :created_at)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
