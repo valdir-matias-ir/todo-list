@@ -27,7 +27,7 @@ public class TodoItemDaoImpl implements TodoItemDao {
 
     @Override
     public Optional<TodoItem> findById(Long todoListId, Long id) {
-        return new FindTodoItemByIdCommand(jdbcTemplate, todoListId).apply(id);
+        return new FindTodoItemByIdCommand(jdbcTemplate).apply(todoListId, id);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class TodoItemDaoImpl implements TodoItemDao {
 
     @Override
     public void delete(final Long todoListId, final Long id) {
-        new DeleteTodoItemCommand(jdbcTemplate, todoListId).accept(id);
+        new DeleteTodoItemCommand(jdbcTemplate).accept(todoListId, id);
     }
 }

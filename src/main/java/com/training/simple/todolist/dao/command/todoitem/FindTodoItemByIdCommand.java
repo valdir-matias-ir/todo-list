@@ -13,24 +13,22 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
-public class FindTodoItemByIdCommand implements Function<Long, Optional<TodoItem>> {
+public class FindTodoItemByIdCommand implements BiFunction<Long, Long, Optional<TodoItem>> {
 
     private static final String QUERY = "SELECT id, todo_list_id, description, created_at, done, done_at " +
             " FROM todo_item " +
             " WHERE todo_list_id = :todo_list_id AND id = :id";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final Long todoListId;
 
-    public FindTodoItemByIdCommand(final JdbcTemplate jdbcTemplate, final Long todoListId) {
+    public FindTodoItemByIdCommand(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
-        this.todoListId = todoListId;
     }
 
     @Override
-    public Optional<TodoItem> apply(final Long id) {
+    public Optional<TodoItem> apply(final Long todoListId, final Long id) {
         final Map<String, Long> parameters = new HashMap<>();
 
         parameters.put("todo_list_id", todoListId);
